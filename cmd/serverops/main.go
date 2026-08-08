@@ -13,6 +13,10 @@ func main() {
 		http.ServeFile(w, r, "web/templates/index.html")
 	})
 
+	// Serve CSS, JavaScript and other static files.
+	fs := http.FileServer(http.Dir("web/static"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
+
 	// Print the server address in the terminal.
 	fmt.Println("Pingo running on http://localhost:8080")
 
