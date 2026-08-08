@@ -1,0 +1,1 @@
+console.log("Pingo dashboard JavaScript loaded");
