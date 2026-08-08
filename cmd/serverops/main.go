@@ -3,19 +3,13 @@ package main // Defines an executable Go program.
 import (
 	"fmt"
 	"net/http" //Go standard library package for HTTP servers and clients.
+
+	"github.com/maglovskiNenad/pingo/internal/router"
 )
 
 func main() {
-
-	// Register a handler for the root URL "/".
-	// When the browser opens localhost:8080/, this function handles the request.
-	http.HandleFunc("/",func(w http.ResponseWriter,r *http.Request){
-		http.ServeFile(w, r, "web/templates/index.html")
-	})
-
-	// Serve CSS, JavaScript and other static files.
-	fs := http.FileServer(http.Dir("web/static"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
+	// RegisterRoutes defines all HTTP routes used by the Pingo web application.
+	router.RegisterRoutes()
 
 	// Print the server address in the terminal.
 	fmt.Println("Pingo running on http://localhost:8080")
