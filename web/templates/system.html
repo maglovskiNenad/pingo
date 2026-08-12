@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Pingo</title>
-
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 
@@ -28,8 +26,18 @@
     </aside>
 
     <main class="content">
-        <h1>System</h1>
-    </main>
+        <h1>System</h1>  
+
+    <div class="metric-card">
+        <div class="metric-header">
+            <h3>CPU</h3>
+            <span id="cpu-usage">{{printf "%.1f" .CPU}}%</span>
+        </div>
+
+        <div class="metric-track">
+            <div id="cpu-bar" class="metric-fill"></div>
+        </div>
+    </div>
     
     <script src="/static/js/dashboard.js"></script>
 </body>
