@@ -20,6 +20,9 @@ func RegisterRoutes() {
 	// API endpoint for live CPU usage.
 	http.HandleFunc("/api/cpu", handlers.CPUAPIHandler)
 
+	// API endpoint for live memory usage.
+	http.HandleFunc("/api/memory", handlers.MemoryAPIHandler)
+
 	// Serve the network information page.
 	http.HandleFunc("/network", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "web/templates/network.html")
@@ -31,7 +34,7 @@ func RegisterRoutes() {
 	})
 
 	// Serve the services information page.
-	http.HandleFunc("/service", func(w http.ResponseWriter,r *http.Request){
+	http.HandleFunc("/services", func(w http.ResponseWriter,r *http.Request){
 		http.ServeFile(w, r, "web/templates/services.html") 
 	})
 

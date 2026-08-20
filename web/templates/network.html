@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Pingo</title>
+    <title>Pingo - Network</title>
 
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 
 <body>
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
 
     <aside class="sidebar">
 
@@ -18,19 +23,478 @@
         </div>
 
         <nav class="nav">
-            <a href="/" class="nav-item active">Dashboard</a>
+            <a href="/" class="nav-item">Dashboard</a>
             <a href="/system" class="nav-item">System</a>
-            <a href="/network" class="nav-item">Network</a>
+            <a href="/network" class="nav-item active">Network</a>
             <a href="/services" class="nav-item">Services</a>
             <a href="/logs" class="nav-item">Logs</a>
         </nav>
 
     </aside>
 
+
+    <!-- =====================================================
+         MAIN CONTENT
+         ===================================================== -->
+
     <main class="content">
-        <h1>Network</h1>
+
+        <!-- PAGE HEADER -->
+
+        <header class="page-header">
+
+            <h1>Network</h1>
+
+            <p>
+                Network interfaces, traffic and connectivity overview
+            </p>
+
+        </header>
+
+
+        <!-- =================================================
+             MAIN NETWORK METRICS
+             ================================================= -->
+
+        <section class="network-metrics-grid">
+
+            <!-- DOWNLOAD -->
+
+            <article class="network-metric-card">
+
+                <div class="network-metric-header">
+
+                    <span class="network-metric-title">
+                        Receive
+                    </span>
+
+                    <span
+                        id="network-rx"
+                        class="network-metric-value">
+                        0 KB/s
+                    </span>
+
+                </div>
+
+                <div class="network-track">
+
+                    <div
+                        id="network-rx-bar"
+                        class="network-fill">
+                    </div>
+
+                </div>
+
+                <div class="network-metric-footer">
+
+                    <span>Incoming traffic</span>
+                    <span>Live</span>
+
+                </div>
+
+            </article>
+
+
+            <!-- UPLOAD -->
+
+            <article class="network-metric-card">
+
+                <div class="network-metric-header">
+
+                    <span class="network-metric-title">
+                        Transmit
+                    </span>
+
+                    <span
+                        id="network-tx"
+                        class="network-metric-value">
+                        0 KB/s
+                    </span>
+
+                </div>
+
+                <div class="network-track">
+
+                    <div
+                        id="network-tx-bar"
+                        class="network-fill">
+                    </div>
+
+                </div>
+
+                <div class="network-metric-footer">
+
+                    <span>Outgoing traffic</span>
+                    <span>Live</span>
+
+                </div>
+
+            </article>
+
+
+            <!-- ACTIVE INTERFACES -->
+
+            <article class="network-metric-card">
+
+                <div class="network-metric-header">
+
+                    <span class="network-metric-title">
+                        Interfaces
+                    </span>
+
+                    <span
+                        id="active-interfaces"
+                        class="network-metric-value">
+                        0
+                    </span>
+
+                </div>
+
+                <div class="network-status-line">
+
+                    <span class="status-dot"></span>
+
+                    <span>
+                        Active network interfaces
+                    </span>
+
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- =================================================
+             SECONDARY NETWORK STATS
+             ================================================= -->
+
+        <section class="network-stats-grid">
+
+
+            <article class="network-stat-card">
+
+                <span class="network-stat-label">
+                    Connections
+                </span>
+
+                <strong
+                    id="connection-count"
+                    class="network-stat-value">
+                    0
+                </strong>
+
+                <span class="network-stat-description">
+                    Established connections
+                </span>
+
+            </article>
+
+
+            <article class="network-stat-card">
+
+                <span class="network-stat-label">
+                    Listening Ports
+                </span>
+
+                <strong
+                    id="listening-ports"
+                    class="network-stat-value">
+                    0
+                </strong>
+
+                <span class="network-stat-description">
+                    TCP / UDP listeners
+                </span>
+
+            </article>
+
+
+            <article class="network-stat-card">
+
+                <span class="network-stat-label">
+                    Default Gateway
+                </span>
+
+                <strong
+                    id="default-gateway"
+                    class="network-stat-value network-small-value">
+                    -
+                </strong>
+
+                <span class="network-stat-description">
+                    Default route
+                </span>
+
+            </article>
+
+
+            <article class="network-stat-card">
+
+                <span class="network-stat-label">
+                    DNS Server
+                </span>
+
+                <strong
+                    id="dns-server"
+                    class="network-stat-value network-small-value">
+                    -
+                </strong>
+
+                <span class="network-stat-description">
+                    Resolver
+                </span>
+
+            </article>
+
+        </section>
+
+
+        <!-- =================================================
+             NETWORK INTERFACES
+             ================================================= -->
+
+        <section class="network-panel">
+
+            <div class="section-header">
+
+                <h2>Network Interfaces</h2>
+
+                <p>
+                    Interfaces, addresses and operational state
+                </p>
+
+            </div>
+
+
+            <div class="network-table-wrapper">
+
+                <table class="network-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>Interface</th>
+                            <th>Status</th>
+                            <th>IPv4</th>
+                            <th>IPv6</th>
+                            <th>MAC Address</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="interfaces-table">
+
+                        <!-- Temporary placeholder -->
+
+                        <tr>
+
+                            <td>
+                                -
+                            </td>
+
+                            <td>
+
+                                <span class="interface-status">
+
+                                    <span class="status-dot"></span>
+
+                                    Unknown
+
+                                </span>
+
+                            </td>
+
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             ROUTING INFORMATION
+             ================================================= -->
+
+        <section class="network-panel">
+
+            <div class="section-header">
+
+                <h2>Routing</h2>
+
+                <p>
+                    Current network routing information
+                </p>
+
+            </div>
+
+
+            <div class="network-info-grid">
+
+
+                <div class="network-info-row">
+
+                    <span class="network-info-label">
+                        Default Gateway
+                    </span>
+
+                    <span
+                        id="route-gateway"
+                        class="network-info-value">
+                        -
+                    </span>
+
+                </div>
+
+
+                <div class="network-info-row">
+
+                    <span class="network-info-label">
+                        Default Interface
+                    </span>
+
+                    <span
+                        id="default-interface"
+                        class="network-info-value">
+                        -
+                    </span>
+
+                </div>
+
+
+                <div class="network-info-row">
+
+                    <span class="network-info-label">
+                        Local Network
+                    </span>
+
+                    <span
+                        id="local-network"
+                        class="network-info-value">
+                        -
+                    </span>
+
+                </div>
+
+
+                <div class="network-info-row">
+
+                    <span class="network-info-label">
+                        Route Count
+                    </span>
+
+                    <span
+                        id="route-count"
+                        class="network-info-value">
+                        0
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             SOCKET / PORT OVERVIEW
+             ================================================= -->
+
+        <section class="network-panel">
+
+            <div class="section-header">
+
+                <h2>Socket Overview</h2>
+
+                <p>
+                    Current TCP and UDP socket state
+                </p>
+
+            </div>
+
+
+            <div class="socket-grid">
+
+
+                <div class="socket-item">
+
+                    <span class="socket-label">
+                        Established
+                    </span>
+
+                    <strong
+                        id="tcp-established"
+                        class="socket-value">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="socket-item">
+
+                    <span class="socket-label">
+                        Listening
+                    </span>
+
+                    <strong
+                        id="tcp-listen"
+                        class="socket-value">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="socket-item">
+
+                    <span class="socket-label">
+                        TIME_WAIT
+                    </span>
+
+                    <strong
+                        id="tcp-time-wait"
+                        class="socket-value">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="socket-item">
+
+                    <span class="socket-label">
+                        UDP
+                    </span>
+
+                    <strong
+                        id="udp-sockets"
+                        class="socket-value">
+                        0
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
     </main>
 
+
     <script src="/static/js/dashboard.js"></script>
+
 </body>
+
 </html>

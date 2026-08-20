@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pingo</title>
+
+    <title>Pingo - System</title>
+
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 
@@ -16,8 +18,8 @@
         </div>
 
         <nav class="nav">
-            <a href="/" class="nav-item active">Dashboard</a>
-            <a href="/system" class="nav-item">System</a>
+            <a href="/" class="nav-item">Dashboard</a>
+            <a href="/system" class="nav-item active">System</a>
             <a href="/network" class="nav-item">Network</a>
             <a href="/services" class="nav-item">Services</a>
             <a href="/logs" class="nav-item">Logs</a>
@@ -26,19 +28,167 @@
     </aside>
 
     <main class="content">
-        <h1>System</h1>  
 
-    <div class="metric-card">
-        <div class="metric-header">
-            <h3>CPU</h3>
-            <span id="cpu-usage">{{printf "%.1f" .CPU}}%</span>
-        </div>
+        <header class="page-header">
+            <h1>System</h1>
+            <p>System resources and hardware overview</p>
+        </header>
 
-        <div class="metric-track">
-            <div id="cpu-bar" class="metric-fill"></div>
-        </div>
-    </div>
-    
+
+        <!-- PRIMARY METRICS -->
+
+        <section class="metrics-grid">
+
+            <article class="metric-card">
+
+                <div class="metric-header">
+                    <span class="metric-title">CPU</span>
+
+                    <span id="cpu-usage" class="metric-value">
+                        {{printf "%.1f" .CPU}}%
+                    </span>
+                </div>
+
+                <div class="metric-track">
+                    <div id="cpu-bar" class="metric-fill"></div>
+                </div>
+
+                <div class="metric-footer">
+                    <span>Current usage</span>
+                    <span>Live</span>
+                </div>
+
+            </article>
+
+           <article class="metric-card">
+
+                <div class="metric-header">
+                    <span class="metric-title">Memory</span>
+                    <span id="ram-usage" class="metric-value">0.0%</span>
+                </div>
+            
+                <div class="metric-track">
+                    <div id="ram-bar" class="metric-fill"></div>
+                </div>
+            
+                <div class="metric-footer">
+                    <span id="ram-used">0 GB used</span>
+                    <span id="ram-total">0 GB total</span>
+                </div>
+
+            </article>
+           
+           
+            <article class="metric-card">
+
+                <div class="metric-header">
+                    <span class="metric-title">Disk</span>
+                    <span id="disk-usage" class="metric-value">0.0%</span>
+                </div>
+
+                <div class="metric-track">
+                    <div id="disk-bar" class="metric-fill"></div>
+                </div>
+
+                <div class="metric-footer">
+                    <span id="disk-used">0 GB used</span>
+                    <span id="disk-total">0 GB total</span>
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- SECONDARY METRICS -->
+
+        <section class="stats-grid">
+
+            <article class="stat-card">
+                <span class="stat-label">Load Average</span>
+                <strong id="load-average" class="stat-value">0.00</strong>
+                <span class="stat-description">1 minute average</span>
+            </article>
+
+
+            <article class="stat-card">
+                <span class="stat-label">Uptime</span>
+                <strong id="uptime" class="stat-value">0h</strong>
+                <span class="stat-description">Since last boot</span>
+            </article>
+
+
+            <article class="stat-card">
+                <span class="stat-label">CPU Cores</span>
+                <strong id="cpu-cores" class="stat-value">0</strong>
+                <span class="stat-description">Logical processors</span>
+            </article>
+
+
+            <article class="stat-card">
+                <span class="stat-label">Processes</span>
+                <strong id="process-count" class="stat-value">0</strong>
+                <span class="stat-description">System processes</span>
+            </article>
+
+        </section>
+
+
+        <!-- SYSTEM INFORMATION -->
+
+        <section class="info-panel">
+
+            <div class="section-header">
+                <h2>System Information</h2>
+                <p>Operating system and hardware details</p>
+            </div>
+
+
+            <div class="info-grid">
+
+                <div class="info-row">
+                    <span class="info-label">Hostname</span>
+                    <span id="hostname" class="info-value">-</span>
+                </div>
+
+
+                <div class="info-row">
+                    <span class="info-label">Operating System</span>
+                    <span id="os-name" class="info-value">-</span>
+                </div>
+
+
+                <div class="info-row">
+                    <span class="info-label">Kernel</span>
+                    <span id="kernel" class="info-value">-</span>
+                </div>
+
+
+                <div class="info-row">
+                    <span class="info-label">Architecture</span>
+                    <span id="architecture" class="info-value">-</span>
+                </div>
+
+
+                <div class="info-row">
+                    <span class="info-label">CPU Model</span>
+                    <span id="cpu-model" class="info-value">-</span>
+                </div>
+
+
+                <div class="info-row">
+                    <span class="info-label">Total Memory</span>
+                    <span id="memory-total" class="info-value">-</span>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
     <script src="/static/js/dashboard.js"></script>
+
 </body>
 </html>

@@ -61,3 +61,28 @@ func CPUAPIHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("JSON error:", err)
 	}
 }
+
+func MemoryAPIHandler(w http.ResponseWriter, r *http.Request) {
+	// Read current RAM information.
+	memory, err := metrics.ReadMemory()
+	if err != nil {
+		http.Error(w, "Failed to read memory usage", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+
+	// Convert KB to GB.
+	totalGB := float64(memory.TotalKB) / 1024 / 1024
+	usedGB := float64(memory.UsedKB) / 1024 / 1024
+
+	err = json.NewEncoder(w).Encode(map[string]float64{
+		"usage": memory.Usage,
+		"used":  usedGB,
+		"total": totalGB,
+	})
+
+	if err != nil {
+		fmt.Println("JSON error:", err)
+	}
+}

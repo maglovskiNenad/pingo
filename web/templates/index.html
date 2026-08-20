@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pingo</title>
+
+    <title>Pingo - Dashboard</title>
+
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 
 <body>
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
 
     <aside class="sidebar">
 
@@ -25,10 +32,432 @@
 
     </aside>
 
+
+    <!-- =====================================================
+         MAIN CONTENT
+         ===================================================== -->
+
     <main class="content">
-        <h1>Dashboard</h1>  
-    </main>  
+
+        <!-- PAGE HEADER -->
+
+        <header class="page-header">
+            <h1>Dashboard</h1>
+            <p>Server overview and current health</p>
+        </header>
+
+
+        <!-- =================================================
+             PRIMARY RESOURCE METRICS
+             ================================================= -->
+
+        <section class="dashboard-metrics-grid">
+
+            <!-- CPU -->
+
+            <article class="dashboard-metric-card">
+
+                <div class="dashboard-metric-header">
+                    <span class="dashboard-metric-title">CPU</span>
+                    <span id="cpu-usage" class="dashboard-metric-value">
+                        0.0%
+                    </span>
+                </div>
+
+                <div class="dashboard-track">
+                    <div id="dashboard-cpu-bar" class="dashboard-fill"></div>
+                </div>
+
+                <div class="dashboard-metric-footer">
+                    <span>Current usage</span>
+                    <span>Live</span>
+                </div>
+
+            </article>
+
+
+            <!-- MEMORY -->
+
+            <article class="dashboard-metric-card">
+
+                <div class="dashboard-metric-header">
+                    <span class="dashboard-metric-title">Memory</span>
+                    <span id="ram-usage" class="dashboard-metric-value">
+                        0.0%
+                    </span>
+                </div>
+
+                <div class="dashboard-track">
+                    <div id="ram-bar" class="dashboard-fill"></div>
+                </div>
+
+                <div class="dashboard-metric-footer">
+                    <span id="ram-used">0 GB used</span>
+                    <span id="ram-total">0 GB total</span>
+                </div>
+
+            </article>
+
+
+            <!-- DISK -->
+
+            <article class="dashboard-metric-card">
+
+                <div class="dashboard-metric-header">
+                    <span class="dashboard-metric-title">Disk</span>
+                    <span id="dashboard-disk" class="dashboard-metric-value">
+                        0.0%
+                    </span>
+                </div>
+
+                <div class="dashboard-track">
+                    <div id="dashboard-disk-bar" class="dashboard-fill"></div>
+                </div>
+
+                <div class="dashboard-metric-footer">
+                    <span id="dashboard-disk-used">0 GB used</span>
+                    <span id="dashboard-disk-total">0 GB total</span>
+                </div>
+
+            </article>
+
+
+            <!-- LOAD -->
+
+            <article class="dashboard-metric-card">
+
+                <div class="dashboard-metric-header">
+                    <span class="dashboard-metric-title">Load Average</span>
+                    <span id="dashboard-load" class="dashboard-metric-value">
+                        0.00
+                    </span>
+                </div>
+
+                <div class="dashboard-load-values">
+                    <span>1m</span>
+                    <span>5m</span>
+                    <span>15m</span>
+                </div>
+
+                <div class="dashboard-load-numbers">
+                    <strong id="load-1">0.00</strong>
+                    <strong id="load-5">0.00</strong>
+                    <strong id="load-15">0.00</strong>
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- =================================================
+             QUICK SYSTEM STATS
+             ================================================= -->
+
+        <section class="dashboard-stats-grid">
+
+            <article class="dashboard-stat-card">
+
+                <span class="dashboard-stat-label">
+                    Uptime
+                </span>
+
+                <strong id="dashboard-uptime" class="dashboard-stat-value">
+                    0h
+                </strong>
+
+                <span class="dashboard-stat-description">
+                    Since last boot
+                </span>
+
+            </article>
+
+
+            <article class="dashboard-stat-card">
+
+                <span class="dashboard-stat-label">
+                    Active Services
+                </span>
+
+                <strong
+                    id="dashboard-active-services"
+                    class="dashboard-stat-value dashboard-success">
+                    0
+                </strong>
+
+                <span class="dashboard-stat-description">
+                    Running systemd services
+                </span>
+
+            </article>
+
+
+            <article class="dashboard-stat-card">
+
+                <span class="dashboard-stat-label">
+                    Failed Services
+                </span>
+
+                <strong
+                    id="dashboard-failed-services"
+                    class="dashboard-stat-value dashboard-danger">
+                    0
+                </strong>
+
+                <span class="dashboard-stat-description">
+                    Require attention
+                </span>
+
+            </article>
+
+
+            <article class="dashboard-stat-card">
+
+                <span class="dashboard-stat-label">
+                    Connections
+                </span>
+
+                <strong id="dashboard-connections" class="dashboard-stat-value">
+                    0
+                </strong>
+
+                <span class="dashboard-stat-description">
+                    Established network connections
+                </span>
+
+            </article>
+
+        </section>
+
+
+        <!-- =================================================
+             SYSTEM HEALTH
+             ================================================= -->
+
+        <section class="dashboard-health-panel">
+
+            <div class="dashboard-health-content">
+
+                <div class="dashboard-health-left">
+
+                    <span
+                        id="dashboard-health-dot"
+                        class="dashboard-health-dot dashboard-health-ok">
+                    </span>
+
+                    <div>
+                        <h2>System Health</h2>
+
+                        <p id="dashboard-health-message">
+                            All systems operational
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="dashboard-health-status">
+                    Healthy
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             NETWORK + RECENT EVENTS
+             ================================================= -->
+
+        <section class="dashboard-details-grid">
+
+
+            <!-- NETWORK SNAPSHOT -->
+
+            <article class="dashboard-panel">
+
+                <div class="section-header">
+                    <h2>Network</h2>
+                    <p>Current network activity</p>
+                </div>
+
+
+                <div class="dashboard-info-list">
+
+                    <div class="dashboard-info-row">
+                        <span>Receive</span>
+                        <strong id="dashboard-rx">0 KB/s</strong>
+                    </div>
+
+
+                    <div class="dashboard-info-row">
+                        <span>Transmit</span>
+                        <strong id="dashboard-tx">0 KB/s</strong>
+                    </div>
+
+
+                    <div class="dashboard-info-row">
+                        <span>Interface</span>
+                        <strong id="dashboard-interface">-</strong>
+                    </div>
+
+
+                    <div class="dashboard-info-row">
+                        <span>IPv4 Address</span>
+                        <strong id="dashboard-ip">-</strong>
+                    </div>
+
+
+                    <div class="dashboard-info-row">
+                        <span>Gateway</span>
+                        <strong id="dashboard-gateway">-</strong>
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- RECENT EVENTS -->
+
+            <article class="dashboard-panel">
+
+                <div class="section-header">
+                    <h2>Recent Events</h2>
+                    <p>Latest important journal events</p>
+                </div>
+
+
+                <div id="dashboard-events" class="dashboard-events-list">
+
+
+                    <div class="dashboard-event">
+
+                        <div class="dashboard-event-status dashboard-event-info">
+                            INFO
+                        </div>
+
+                        <div class="dashboard-event-content">
+
+                            <strong>
+                                systemd
+                            </strong>
+
+                            <span>
+                                No recent events loaded
+                            </span>
+
+                        </div>
+
+                        <time>
+                            -
+                        </time>
+
+                    </div>
+
+
+                    <div class="dashboard-event">
+
+                        <div class="dashboard-event-status dashboard-event-info">
+                            INFO
+                        </div>
+
+                        <div class="dashboard-event-content">
+
+                            <strong>
+                                ssh.service
+                            </strong>
+
+                            <span>
+                                Waiting for journal data
+                            </span>
+
+                        </div>
+
+                        <time>
+                            -
+                        </time>
+
+                    </div>
+
+
+                    <div class="dashboard-event">
+
+                        <div class="dashboard-event-status dashboard-event-warning">
+                            WARN
+                        </div>
+
+                        <div class="dashboard-event-content">
+
+                            <strong>
+                                kernel
+                            </strong>
+
+                            <span>
+                                No warnings detected
+                            </span>
+
+                        </div>
+
+                        <time>
+                            -
+                        </time>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- =================================================
+             SERVER INFORMATION
+             ================================================= -->
+
+        <section class="dashboard-panel">
+
+            <div class="section-header">
+                <h2>Server Information</h2>
+                <p>Basic host information</p>
+            </div>
+
+
+            <div class="dashboard-server-grid">
+
+                <div class="dashboard-server-item">
+                    <span>Hostname</span>
+                    <strong id="dashboard-hostname">-</strong>
+                </div>
+
+
+                <div class="dashboard-server-item">
+                    <span>Operating System</span>
+                    <strong id="dashboard-os">-</strong>
+                </div>
+
+
+                <div class="dashboard-server-item">
+                    <span>Kernel</span>
+                    <strong id="dashboard-kernel">-</strong>
+                </div>
+
+
+                <div class="dashboard-server-item">
+                    <span>Architecture</span>
+                    <strong id="dashboard-architecture">-</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
 
     <script src="/static/js/dashboard.js"></script>
+
 </body>
+
 </html>
