@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Pingo</title>
+    <title>Pingo - Services</title>
 
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 
 <body>
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
 
     <aside class="sidebar">
 
@@ -18,19 +23,516 @@
         </div>
 
         <nav class="nav">
-            <a href="/" class="nav-item active">Dashboard</a>
+            <a href="/" class="nav-item">Dashboard</a>
             <a href="/system" class="nav-item">System</a>
             <a href="/network" class="nav-item">Network</a>
-            <a href="/services" class="nav-item">Services</a>
+            <a href="/services" class="nav-item active">Services</a>
             <a href="/logs" class="nav-item">Logs</a>
         </nav>
 
     </aside>
 
+
+    <!-- =====================================================
+         MAIN CONTENT
+         ===================================================== -->
+
     <main class="content">
-        <h1>Services</h1>
+
+        <!-- PAGE HEADER -->
+
+        <header class="page-header">
+
+            <h1>Services</h1>
+
+            <p>
+                systemd services, status and runtime overview
+            </p>
+
+        </header>
+
+
+        <!-- =================================================
+             SERVICE SUMMARY
+             ================================================= -->
+
+        <section class="services-summary-grid">
+
+
+            <article class="service-summary-card">
+
+                <span class="service-summary-label">
+                    Total Services
+                </span>
+
+                <strong
+                    id="services-total"
+                    class="service-summary-value">
+                    0
+                </strong>
+
+                <span class="service-summary-description">
+                    Loaded systemd services
+                </span>
+
+            </article>
+
+
+            <article class="service-summary-card">
+
+                <span class="service-summary-label">
+                    Active
+                </span>
+
+                <strong
+                    id="services-active"
+                    class="service-summary-value service-value-success">
+                    0
+                </strong>
+
+                <span class="service-summary-description">
+                    Currently running
+                </span>
+
+            </article>
+
+
+            <article class="service-summary-card">
+
+                <span class="service-summary-label">
+                    Failed
+                </span>
+
+                <strong
+                    id="services-failed"
+                    class="service-summary-value service-value-danger">
+                    0
+                </strong>
+
+                <span class="service-summary-description">
+                    Services requiring attention
+                </span>
+
+            </article>
+
+
+            <article class="service-summary-card">
+
+                <span class="service-summary-label">
+                    Inactive
+                </span>
+
+                <strong
+                    id="services-inactive"
+                    class="service-summary-value">
+                    0
+                </strong>
+
+                <span class="service-summary-description">
+                    Currently stopped
+                </span>
+
+            </article>
+
+        </section>
+
+
+        <!-- =================================================
+             SERVICE HEALTH
+             ================================================= -->
+
+        <section class="service-health-grid">
+
+
+            <article class="service-health-card">
+
+                <div class="service-health-header">
+
+                    <span class="service-health-title">
+                        Service Health
+                    </span>
+
+                    <span
+                        id="service-health-percent"
+                        class="service-health-value">
+                        0%
+                    </span>
+
+                </div>
+
+
+                <div class="service-health-track">
+
+                    <div
+                        id="service-health-bar"
+                        class="service-health-fill">
+                    </div>
+
+                </div>
+
+
+                <div class="service-health-footer">
+
+                    <span>
+                        Active services
+                    </span>
+
+                    <span>
+                        Overall health
+                    </span>
+
+                </div>
+
+            </article>
+
+
+            <article class="service-health-card">
+
+                <div class="service-health-header">
+
+                    <span class="service-health-title">
+                        Failed Units
+                    </span>
+
+                    <span
+                        id="failed-units-count"
+                        class="service-health-value service-value-danger">
+                        0
+                    </span>
+
+                </div>
+
+
+                <div class="service-status-line">
+
+                    <span class="service-status-dot service-status-ok"></span>
+
+                    <span id="failed-units-message">
+                        No failed units detected
+                    </span>
+
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- =================================================
+             SERVICE TABLE
+             ================================================= -->
+
+        <section class="services-panel">
+
+            <div class="section-header">
+
+                <h2>Service Overview</h2>
+
+                <p>
+                    Loaded systemd services and current state
+                </p>
+
+            </div>
+
+
+            <div class="services-toolbar">
+
+                <div class="services-search-wrapper">
+
+                    <input
+                        type="text"
+                        id="service-search"
+                        class="services-search"
+                        placeholder="Search services..."
+                    >
+
+                </div>
+
+
+                <select
+                    id="service-filter"
+                    class="services-filter">
+
+                    <option value="all">
+                        All services
+                    </option>
+
+                    <option value="active">
+                        Active
+                    </option>
+
+                    <option value="inactive">
+                        Inactive
+                    </option>
+
+                    <option value="failed">
+                        Failed
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="services-table-wrapper">
+
+                <table class="services-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>Service</th>
+                            <th>Status</th>
+                            <th>Enabled</th>
+                            <th>PID</th>
+                            <th>Description</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="services-table-body">
+
+                        <!-- Temporary placeholder -->
+
+                        <tr>
+
+                            <td class="service-name">
+                                ssh.service
+                            </td>
+
+                            <td>
+
+                                <span class="service-state">
+
+                                    <span
+                                        class="service-status-dot service-status-ok">
+                                    </span>
+
+                                    Active
+
+                                </span>
+
+                            </td>
+
+                            <td>
+                                Enabled
+                            </td>
+
+                            <td>
+                                -
+                            </td>
+
+                            <td class="service-description">
+                                OpenSSH server daemon
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td class="service-name">
+                                cron.service
+                            </td>
+
+                            <td>
+
+                                <span class="service-state">
+
+                                    <span
+                                        class="service-status-dot service-status-ok">
+                                    </span>
+
+                                    Active
+
+                                </span>
+
+                            </td>
+
+                            <td>
+                                Enabled
+                            </td>
+
+                            <td>
+                                -
+                            </td>
+
+                            <td class="service-description">
+                                Regular background program processing daemon
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td class="service-name">
+                                example.service
+                            </td>
+
+                            <td>
+
+                                <span class="service-state">
+
+                                    <span
+                                        class="service-status-dot service-status-inactive">
+                                    </span>
+
+                                    Inactive
+
+                                </span>
+
+                            </td>
+
+                            <td>
+                                Disabled
+                            </td>
+
+                            <td>
+                                -
+                            </td>
+
+                            <td class="service-description">
+                                Example placeholder service
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             FAILED SERVICES
+             ================================================= -->
+
+        <section class="services-panel">
+
+            <div class="section-header">
+
+                <h2>Failed Services</h2>
+
+                <p>
+                    Units that require administrator attention
+                </p>
+
+            </div>
+
+
+            <div id="failed-services-list" class="failed-services-list">
+
+
+                <div class="failed-service-empty">
+
+                    <span class="service-status-dot service-status-ok"></span>
+
+                    <span>
+                        No failed services detected
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             SYSTEMD INFORMATION
+             ================================================= -->
+
+        <section class="services-panel">
+
+            <div class="section-header">
+
+                <h2>systemd Information</h2>
+
+                <p>
+                    Service manager and boot state information
+                </p>
+
+            </div>
+
+
+            <div class="service-info-grid">
+
+
+                <div class="service-info-row">
+
+                    <span class="service-info-label">
+                        System State
+                    </span>
+
+                    <span
+                        id="systemd-state"
+                        class="service-info-value">
+                        -
+                    </span>
+
+                </div>
+
+
+                <div class="service-info-row">
+
+                    <span class="service-info-label">
+                        Running Units
+                    </span>
+
+                    <span
+                        id="running-units"
+                        class="service-info-value">
+                        0
+                    </span>
+
+                </div>
+
+
+                <div class="service-info-row">
+
+                    <span class="service-info-label">
+                        Failed Units
+                    </span>
+
+                    <span
+                        id="systemd-failed-units"
+                        class="service-info-value">
+                        0
+                    </span>
+
+                </div>
+
+
+                <div class="service-info-row">
+
+                    <span class="service-info-label">
+                        Default Target
+                    </span>
+
+                    <span
+                        id="default-target"
+                        class="service-info-value">
+                        -
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
     </main>
 
+
     <script src="/static/js/dashboard.js"></script>
+
 </body>
+
 </html>

@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Pingo</title>
+    <title>Pingo - Logs</title>
 
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 
 <body>
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
 
     <aside class="sidebar">
 
@@ -18,19 +23,567 @@
         </div>
 
         <nav class="nav">
-            <a href="/" class="nav-item active">Dashboard</a>
+            <a href="/" class="nav-item">Dashboard</a>
             <a href="/system" class="nav-item">System</a>
             <a href="/network" class="nav-item">Network</a>
             <a href="/services" class="nav-item">Services</a>
-            <a href="/logs" class="nav-item">Logs</a>
+            <a href="/logs" class="nav-item active">Logs</a>
         </nav>
 
     </aside>
 
+
+    <!-- =====================================================
+         MAIN CONTENT
+         ===================================================== -->
+
     <main class="content">
-        <h1>Logs</h1>
+
+        <!-- PAGE HEADER -->
+
+        <header class="page-header">
+
+            <h1>Logs</h1>
+
+            <p>
+                systemd journal events, warnings and errors
+            </p>
+
+        </header>
+
+
+        <!-- =================================================
+             LOG SUMMARY
+             ================================================= -->
+
+        <section class="logs-summary-grid">
+
+            <article class="log-summary-card">
+
+                <span class="log-summary-label">
+                    Recent Entries
+                </span>
+
+                <strong
+                    id="logs-total"
+                    class="log-summary-value">
+                    0
+                </strong>
+
+                <span class="log-summary-description">
+                    Loaded journal entries
+                </span>
+
+            </article>
+
+
+            <article class="log-summary-card">
+
+                <span class="log-summary-label">
+                    Errors
+                </span>
+
+                <strong
+                    id="logs-errors"
+                    class="log-summary-value log-value-error">
+                    0
+                </strong>
+
+                <span class="log-summary-description">
+                    Priority err or higher
+                </span>
+
+            </article>
+
+
+            <article class="log-summary-card">
+
+                <span class="log-summary-label">
+                    Warnings
+                </span>
+
+                <strong
+                    id="logs-warnings"
+                    class="log-summary-value log-value-warning">
+                    0
+                </strong>
+
+                <span class="log-summary-description">
+                    Warning priority
+                </span>
+
+            </article>
+
+
+            <article class="log-summary-card">
+
+                <span class="log-summary-label">
+                    Journal Size
+                </span>
+
+                <strong
+                    id="journal-size"
+                    class="log-summary-value">
+                    -
+                </strong>
+
+                <span class="log-summary-description">
+                    Disk space used by journal
+                </span>
+
+            </article>
+
+        </section>
+
+
+        <!-- =================================================
+             JOURNAL HEALTH
+             ================================================= -->
+
+        <section class="logs-health-grid">
+
+            <article class="log-health-card">
+
+                <div class="log-health-header">
+
+                    <span class="log-health-title">
+                        Journal Activity
+                    </span>
+
+                    <span
+                        id="journal-rate"
+                        class="log-health-value">
+                        0/min
+                    </span>
+
+                </div>
+
+                <div class="log-health-track">
+
+                    <div
+                        id="journal-rate-bar"
+                        class="log-health-fill">
+                    </div>
+
+                </div>
+
+                <div class="log-health-footer">
+
+                    <span>
+                        Recent log activity
+                    </span>
+
+                    <span>
+                        Live
+                    </span>
+
+                </div>
+
+            </article>
+
+
+            <article class="log-health-card">
+
+                <div class="log-health-header">
+
+                    <span class="log-health-title">
+                        Highest Severity
+                    </span>
+
+                    <span
+                        id="highest-severity"
+                        class="log-health-value">
+                        -
+                    </span>
+
+                </div>
+
+                <div class="log-status-line">
+
+                    <span class="log-status-dot log-status-ok"></span>
+
+                    <span id="severity-message">
+                        No critical events detected
+                    </span>
+
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- =================================================
+             LOG VIEWER
+             ================================================= -->
+
+        <section class="logs-panel">
+
+            <div class="section-header">
+
+                <h2>Journal Viewer</h2>
+
+                <p>
+                    Search and filter recent systemd journal entries
+                </p>
+
+            </div>
+
+
+            <!-- TOOLBAR -->
+
+            <div class="logs-toolbar">
+
+                <div class="logs-search-wrapper">
+
+                    <input
+                        type="text"
+                        id="log-search"
+                        class="logs-search"
+                        placeholder="Search logs..."
+                    >
+
+                </div>
+
+
+                <select
+                    id="log-priority-filter"
+                    class="logs-filter">
+
+                    <option value="all">
+                        All priorities
+                    </option>
+
+                    <option value="emerg">
+                        Emergency
+                    </option>
+
+                    <option value="alert">
+                        Alert
+                    </option>
+
+                    <option value="crit">
+                        Critical
+                    </option>
+
+                    <option value="err">
+                        Error
+                    </option>
+
+                    <option value="warning">
+                        Warning
+                    </option>
+
+                    <option value="notice">
+                        Notice
+                    </option>
+
+                    <option value="info">
+                        Info
+                    </option>
+
+                    <option value="debug">
+                        Debug
+                    </option>
+
+                </select>
+
+
+                <select
+                    id="log-unit-filter"
+                    class="logs-filter">
+
+                    <option value="all">
+                        All units
+                    </option>
+
+                    <option value="ssh.service">
+                        ssh.service
+                    </option>
+
+                    <option value="cron.service">
+                        cron.service
+                    </option>
+
+                    <option value="systemd">
+                        systemd
+                    </option>
+
+                </select>
+
+
+                <select
+                    id="log-time-filter"
+                    class="logs-filter">
+
+                    <option value="15m">
+                        Last 15 min
+                    </option>
+
+                    <option value="1h">
+                        Last hour
+                    </option>
+
+                    <option value="6h">
+                        Last 6 hours
+                    </option>
+
+                    <option value="24h">
+                        Last 24 hours
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- LOG TABLE -->
+
+            <div class="logs-table-wrapper">
+
+                <table class="logs-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>Time</th>
+                            <th>Priority</th>
+                            <th>Unit</th>
+                            <th>PID</th>
+                            <th>Message</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="logs-table-body">
+
+                        <!-- Temporary examples -->
+
+                        <tr>
+
+                            <td class="log-time">
+                                21:42:18
+                            </td>
+
+                            <td>
+                                <span class="log-priority log-priority-info">
+                                    INFO
+                                </span>
+                            </td>
+
+                            <td class="log-unit">
+                                ssh.service
+                            </td>
+
+                            <td>
+                                842
+                            </td>
+
+                            <td class="log-message">
+                                Server listening on 0.0.0.0 port 22.
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td class="log-time">
+                                21:39:02
+                            </td>
+
+                            <td>
+                                <span class="log-priority log-priority-warning">
+                                    WARNING
+                                </span>
+                            </td>
+
+                            <td class="log-unit">
+                                kernel
+                            </td>
+
+                            <td>
+                                -
+                            </td>
+
+                            <td class="log-message">
+                                Example warning message
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td class="log-time">
+                                21:35:44
+                            </td>
+
+                            <td>
+                                <span class="log-priority log-priority-error">
+                                    ERROR
+                                </span>
+                            </td>
+
+                            <td class="log-unit">
+                                example.service
+                            </td>
+
+                            <td>
+                                1102
+                            </td>
+
+                            <td class="log-message">
+                                Example service failure message
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             IMPORTANT EVENTS
+             ================================================= -->
+
+        <section class="logs-panel">
+
+            <div class="section-header">
+
+                <h2>Important Events</h2>
+
+                <p>
+                    Recent warnings, errors and critical events
+                </p>
+
+            </div>
+
+
+            <div id="important-events" class="important-events-list">
+
+                <article class="important-event">
+
+                    <div class="important-event-header">
+
+                        <span class="log-priority log-priority-warning">
+                            WARNING
+                        </span>
+
+                        <span class="important-event-time">
+                            -
+                        </span>
+
+                    </div>
+
+                    <div class="important-event-unit">
+                        -
+                    </div>
+
+                    <p class="important-event-message">
+                        No recent important events loaded.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             JOURNAL INFORMATION
+             ================================================= -->
+
+        <section class="logs-panel">
+
+            <div class="section-header">
+
+                <h2>Journal Information</h2>
+
+                <p>
+                    systemd-journald state and storage information
+                </p>
+
+            </div>
+
+
+            <div class="logs-info-grid">
+
+                <div class="logs-info-row">
+
+                    <span class="logs-info-label">
+                        Journal Storage
+                    </span>
+
+                    <span
+                        id="journal-storage"
+                        class="logs-info-value">
+                        -
+                    </span>
+
+                </div>
+
+
+                <div class="logs-info-row">
+
+                    <span class="logs-info-label">
+                        Journal Size
+                    </span>
+
+                    <span
+                        id="journal-disk-usage"
+                        class="logs-info-value">
+                        -
+                    </span>
+
+                </div>
+
+
+                <div class="logs-info-row">
+
+                    <span class="logs-info-label">
+                        Oldest Entry
+                    </span>
+
+                    <span
+                        id="journal-oldest"
+                        class="logs-info-value">
+                        -
+                    </span>
+
+                </div>
+
+
+                <div class="logs-info-row">
+
+                    <span class="logs-info-label">
+                        Newest Entry
+                    </span>
+
+                    <span
+                        id="journal-newest"
+                        class="logs-info-value">
+                        -
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
     </main>
 
+
     <script src="/static/js/dashboard.js"></script>
+
 </body>
+
 </html>
