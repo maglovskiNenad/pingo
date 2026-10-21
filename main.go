@@ -21,9 +21,21 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func loginHandler(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method != http.MethodGet {
+		w.Header().Set("Allow", "GET")
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	http.ServeFile(w,r, "./templates/login.html")
+}
+
 func main(){
 	mux := http.NewServeMux()
 	mux.HandleFunc("/",homeHandler)
+	mux.HandleFunc("/login", loginHandler)
 
 	fileServer := http.FileServer(http.Dir("./static"))
 	mux.Handle("/static/", http.StripPrefix("/static/", fileServer))
